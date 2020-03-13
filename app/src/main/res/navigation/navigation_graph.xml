@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/slides_fragment">
+
+    <fragment
+        android:id="@+id/slides_fragment"
+        android:name="manu.apps.prochama.fragments.SlidesFragment"
+        android:label="slides_fragment"
+        tools:layout="@layout/slides_fragment" >
+        <action
+            android:id="@+id/action_slides_to_dashboard_fragment"
+            app:destination="@id/login_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/deposits_fragment"
+        android:name="manu.apps.prochama.fragments.DepositsFragment"
+        android:label="deposits_fragment"
+        tools:layout="@layout/fragment_deposits"/>
+
+    <fragment
+        android:id="@+id/login_fragment"
+        android:name="manu.apps.prochama.fragments.LoginFragment"
+        android:label="login_fragment"
+        tools:layout="@layout/login_fragment">
+
+        <action
+            android:id="@+id/action_login_to_register_fragment"
+            app:destination="@id/register_fragment" />
+
+        <action
+            android:id="@+id/action_login_to_deposits_fragment"
+            app:destination="@id/deposits_fragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/register_fragment"
+        android:name="manu.apps.prochama.fragments.RegisterFragment"
+        android:label="register_fragment"
+        tools:layout="@layout/register_fragment">
+
+        <action
+            android:id="@+id/action_register_to_deposits_fragment"
+            app:destination="@id/deposits_fragment" />
+
+    </fragment>
+
+</navigation>

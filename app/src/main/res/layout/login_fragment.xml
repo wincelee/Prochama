@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.LoginFragment"
+    android:background="@drawable/gradient_background"
+    android:padding="5dp">
+
+    <ImageView
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:src="@drawable/ic_launcher"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/login_panel"/>
+
+    <LinearLayout
+        android:id="@+id/login_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@color/colorBlack30"
+        android:layout_centerInParent="true"
+        android:layout_margin="1dp"
+        android:padding="5dp"
+        android:orientation="vertical">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:counterEnabled="true"
+            app:counterMaxLength="15"
+            android:background="@drawable/til_background"
+            android:layout_margin="5dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tiet_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_username"
+                android:inputType="textPersonName"
+                android:maxLength="15" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:counterEnabled="true"
+            app:counterMaxLength="8"
+            android:background="@drawable/til_background"
+            android:layout_margin="5dp"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@android:color/white"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tiet_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_password"
+                android:inputType="textPassword"
+                android:maxLength="8" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login"
+            android:theme="@style/AppThemeMaterial"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"/>
+
+        <ProgressBar
+            android:id="@+id/pb_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppThemeMaterial"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/register"
+            android:textColor="@android:color/white"
+            android:theme="@style/AppThemeMaterial"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

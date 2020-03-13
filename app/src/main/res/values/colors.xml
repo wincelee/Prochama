@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ff6f00</color>
+    <color name="colorPrimaryDark">#ffa000</color>
+    <color name="colorAccent">#ffc107</color>
+
+
+    <color name="active_dots">#faf8f8</color>
+    <color name="inactive_dots">#83878B</color>
+
+    <color name="White100">#FFFFFF</color>
+    <color name="White80">#80FFFFFF</color>
+    <color name="White50">#80FFFFFF</color>
+    <color name="White30">#4DFFFFFF</color>
+    <color name="White20">#33FFFFFF</color>
+
+    <color name="colorBlack50">#80000000</color>
+    <color name="colorBlack30">#4D000000</color>
+    <color name="colorBlack20">#0D000000</color>
+    <color name="colorBlack5">#0D000000</color>
+
+    <color name="colorCasey">#F9484A</color>
+
+</resources>

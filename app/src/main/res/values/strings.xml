@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Prochama</string>
+
+    <string name="my_preference">"com.abc..com.MyPref"</string>
+    <string name="my_preference_key">"com.abc..com.MyPrefKey"</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="skip">Skip</string>
+    <string name="next">Next</string>
+    <string name="finish">Finish</string>
+    <string name="enter_username">Enter Username</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="username_empty_error">Username is required</string>
+    <string name="password_empty_error">Password is required</string>
+    <string name="first_name_empty_error">First name is required</string>
+    <string name="last_name_empty_error">Last name is required</string>
+    <string name="phone_number_empty_error">Phone number is required</string>
+
+    <string name="enter_first_name">Enter First Name</string>
+    <string name="enter_last_name">Enter Last Name</string>
+    <string name="enter_phone_number">Enter Phone Number</string>
+
+
+</resources>
