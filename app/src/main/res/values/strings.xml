@@ -9,10 +9,10 @@
     <string name="skip">Skip</string>
     <string name="next">Next</string>
     <string name="finish">Finish</string>
-    <string name="enter_username">Enter Username</string>
+    <string name="enter_email">Enter Email</string>
     <string name="enter_password">Enter Password</string>
     <string name="login">Login</string>
-    <string name="register">Register</string>
+    <string name="register">Don\'t have an account? Register</string>
     <string name="username_empty_error">Username is required</string>
     <string name="password_empty_error">Password is required</string>
     <string name="first_name_empty_error">First name is required</string>

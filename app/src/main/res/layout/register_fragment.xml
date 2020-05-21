@@ -67,10 +67,10 @@
             app:counterMaxLength="15">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tiet_username"
+                android:id="@+id/tiet_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/enter_username"
+                android:hint="@string/enter_email"
                 android:inputType="textPersonName"
                 android:maxLength="15" />
 

@@ -76,7 +76,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
         tietFirstName = view.findViewById(R.id.tiet_first_name);
         tietLastName = view.findViewById(R.id.tiet_last_name);
-        tietUserName = view.findViewById(R.id.tiet_username);
+        tietUserName = view.findViewById(R.id.tiet_email);
         tietPhoneNumber = view.findViewById(R.id.tiet_phone_number);
         tietPassword = view.findViewById(R.id.tiet_password);
 

@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.LoginFragment"
     android:background="@drawable/gradient_background"
-    android:padding="5dp">
+    android:padding="10dp"
+    android:orientation="vertical"
+    android:gravity="center_vertical|center_horizontal"
+    >
 
     <ImageView
         android:layout_width="160dp"
         android:layout_height="160dp"
         android:src="@drawable/ic_launcher"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/login_panel"/>
+        android:layout_above="@+id/login_panel"
+        android:layout_gravity="center_horizontal"/>
 
     <LinearLayout
         android:id="@+id/login_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:background="@color/colorBlack30"
         android:layout_centerInParent="true"
-        android:layout_margin="1dp"
-        android:padding="5dp"
+        android:layout_margin="10dp"
+        android:padding="10dp"
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -32,14 +34,13 @@
             android:layout_height="wrap_content"
             app:counterEnabled="true"
             app:counterMaxLength="15"
-            android:background="@drawable/til_background"
             android:layout_margin="5dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tiet_username"
+                android:id="@+id/tiet_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/enter_username"
+                android:hint="@string/enter_email"
                 android:inputType="textPersonName"
                 android:maxLength="15" />
 
@@ -51,7 +52,6 @@
             android:layout_height="wrap_content"
             app:counterEnabled="true"
             app:counterMaxLength="8"
-            android:background="@drawable/til_background"
             android:layout_margin="5dp"
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@android:color/white"
@@ -72,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/login"
-            android:theme="@style/AppThemeMaterial"
+            android:theme="@style/AppThemeMaterial.Buttons"
             android:textColor="@android:color/white"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"/>
@@ -81,7 +81,8 @@
             android:id="@+id/pb_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/AppThemeMaterial"/>
+            android:theme="@style/AppThemeMaterial"
+            android:visibility="gone"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_register"
@@ -97,4 +98,4 @@
     </LinearLayout>
 
 
-</RelativeLayout>
+</LinearLayout>
