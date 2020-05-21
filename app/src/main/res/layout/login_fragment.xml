@@ -1,47 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.LoginFragment"
     android:background="@drawable/gradient_background"
-    android:padding="10dp"
-    android:orientation="vertical"
     android:gravity="center_vertical|center_horizontal"
-    >
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context=".fragments.LoginFragment">
 
     <ImageView
         android:layout_width="160dp"
         android:layout_height="160dp"
-        android:src="@drawable/ic_launcher"
-        android:layout_above="@+id/login_panel"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/ic_launcher" />
 
     <LinearLayout
         android:id="@+id/login_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_centerInParent="true"
         android:layout_margin="10dp"
-        android:padding="10dp"
-        android:orientation="vertical">
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_username"
+            android:id="@+id/til_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             app:counterEnabled="true"
-            app:counterMaxLength="15"
-            android:layout_margin="5dp">
+            app:counterMaxLength="50"
+            app:counterTextColor="@android:color/darker_gray">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tiet_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_email"
-                android:inputType="textPersonName"
+                android:inputType="textEmailAddress"
                 android:maxLength="15" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -50,9 +48,10 @@
             android:id="@+id/til_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             app:counterEnabled="true"
             app:counterMaxLength="8"
-            android:layout_margin="5dp"
+            app:counterTextColor="@android:color/darker_gray"
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@android:color/white"
             >
@@ -71,29 +70,33 @@
             android:id="@+id/btn_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login"
-            android:theme="@style/AppThemeMaterial.Buttons"
-            android:textColor="@android:color/white"
+            android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"/>
+            android:text="@string/login"
+            android:textColor="@android:color/white"
+            android:theme="@style/ButtonsTheme" />
 
         <ProgressBar
             android:id="@+id/pb_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/AppThemeMaterial"
-            android:visibility="gone"/>
+            android:theme="@style/MaterialTheme"
+            android:visibility="gone" />
+
+        <androidx.legacy.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/register"
-            android:textColor="@android:color/white"
-            android:theme="@style/AppThemeMaterial"
-            android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+            android:layout_marginBottom="5dp"
+            android:text="@string/register"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@android:color/white"
+            android:theme="@style/MaterialTheme" />
 
     </LinearLayout>
 

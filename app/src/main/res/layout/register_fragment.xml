@@ -124,13 +124,13 @@
             android:layout_marginBottom="5dp"
             android:text="Register"
             android:textColor="@android:color/white"
-            android:theme="@style/AppThemeMaterial" />
+            android:theme="@style/ButtonsTheme" />
 
         <ProgressBar
             android:id="@+id/pb_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/AppThemeMaterial" />
+            android:theme="@style/MaterialTheme" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_login"
@@ -140,7 +140,7 @@
             android:layout_marginBottom="5dp"
             android:text="@string/login"
             android:textColor="@android:color/white"
-            android:theme="@style/AppThemeMaterial"
+            android:theme="@style/MaterialTheme"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
     </LinearLayout>

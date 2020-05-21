@@ -6,9 +6,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
     </style>
 
-    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="NoActionBarTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -16,7 +17,7 @@
 
     </style>
 
-    <style name="AppThemeMaterial" parent="Theme.MaterialComponents">
+    <style name="MaterialTheme" parent="Theme.MaterialComponents">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -24,15 +25,23 @@
 
     </style>
 
-    <style name="AppThemeMaterial.Buttons" parent="Theme.MaterialComponents">
+<!--    <style name="AppThemeMaterial.TextInputLayout" parent="Theme.MaterialComponents">-->
+<!--        &lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+<!--        <item name="colorPrimary">@color/colorPrimary</item>-->
+<!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+<!--        <item name="colorAccent">@android:color/white</item>-->
+
+<!--        <item name="colorControlNormal">@android:color/holo_blue_dark</item>-->
+<!--        <item name="colorControlActivated">@android:color/darker_gray</item>-->
+<!--        <item name="colorControlHighlight">@android:color/darker_gray</item>-->
+
+<!--    </style>-->
+
+    <style name="ButtonsTheme" parent="Theme.MaterialComponents">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorCasey</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@android:color/white</item>
-
-        <item name="colorControlNormal">#c5c5c5</item>
-        <item name="colorControlActivated">@color/colorPrimary</item>
-        <item name="colorControlHighlight">@color/colorPrimaryDark</item>
 
     </style>
 
