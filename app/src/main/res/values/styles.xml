@@ -9,13 +9,26 @@
 
     </style>
 
-    <style name="NoActionBarTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="NoActionBarTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@android:color/white</item>
 
     </style>
+
+    <style name="EditTextTheme" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="TextInputLayoutTheme" parent="Theme.MaterialComponents">
+        <!-- Customize your theme here. -->
+        <item name="colorControlNormal">#FFFFFF</item>
+        <item name="colorControlActivated">#FFFFFF</item>
+        <item name="colorControlHighlight">#FFFFFF</item>
+
+    </style>
+
 
     <style name="MaterialTheme" parent="Theme.MaterialComponents">
         <!-- Customize your theme here. -->
@@ -25,17 +38,7 @@
 
     </style>
 
-<!--    <style name="AppThemeMaterial.TextInputLayout" parent="Theme.MaterialComponents">-->
-<!--        &lt;!&ndash; Customize your theme here. &ndash;&gt;-->
-<!--        <item name="colorPrimary">@color/colorPrimary</item>-->
-<!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
-<!--        <item name="colorAccent">@android:color/white</item>-->
 
-<!--        <item name="colorControlNormal">@android:color/holo_blue_dark</item>-->
-<!--        <item name="colorControlActivated">@android:color/darker_gray</item>-->
-<!--        <item name="colorControlHighlight">@android:color/darker_gray</item>-->
-
-<!--    </style>-->
 
     <style name="ButtonsTheme" parent="Theme.MaterialComponents">
         <!-- Customize your theme here. -->

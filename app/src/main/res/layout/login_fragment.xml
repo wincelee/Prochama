@@ -31,16 +31,16 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             app:counterEnabled="true"
-            app:counterMaxLength="50"
+            app:counterMaxLength="25"
             app:counterTextColor="@android:color/darker_gray">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tiet_email"
+            <EditText
+                android:id="@+id/et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_email"
                 android:inputType="textEmailAddress"
-                android:maxLength="15" />
+                android:maxLength="25"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -56,13 +56,15 @@
             app:passwordToggleTint="@android:color/white"
             >
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tiet_password"
+            <EditText
+                android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_password"
                 android:inputType="textPassword"
-                android:maxLength="8" />
+                android:maxLength="8"
+                android:theme="@style/EditTextTheme"
+                />
 
         </com.google.android.material.textfield.TextInputLayout>
 

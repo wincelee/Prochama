@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +48,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     private LoginViewModel loginViewModel;
     private ProgressBar pbLogin;
+    private EditText etEmail;
 
     public static LoginFragment newInstance() {
         return new LoginFragment();
@@ -68,6 +70,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        etEmail = view.findViewById(R.id.et_email);
 
 
     }
