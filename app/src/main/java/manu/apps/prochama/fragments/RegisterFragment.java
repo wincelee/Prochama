@@ -8,7 +8,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +19,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import manu.apps.prochama.R;
 
@@ -33,6 +42,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
    private Button btnRegister;
    private TextView tvLogin;
 
+   FirebaseAuth firebaseAuth;
 
     public static RegisterFragment newInstance() {
         return new RegisterFragment();
@@ -47,6 +57,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
         registerViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
     }
 
@@ -61,17 +74,79 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         etPassword = view.findViewById(R.id.et_password);
         btnRegister = view.findViewById(R.id.btn_register);
         tvLogin = view.findViewById(R.id.tv_register);
+        pbRegister = view.findViewById(R.id.pb_register);
 
         btnRegister.setOnClickListener(this);
-        tvLogin.setOnClickListener(this);
+        //tvLogin.setOnClickListener(this);
 
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.btn_register:
-                //registerCustomer();
+
+                String firstName = etFirstName.getText().toString().trim();
+                String lastName = etLastName.getText().toString().trim();
+                String email = etEmail.getText().toString().trim();
+                String phoneNumber = etPhoneNumber.getText().toString().trim();
+                String password = etPassword.getText().toString().trim();
+
+                if (TextUtils.isEmpty(firstName)){
+                    etFirstName.setError("First name is required");
+                    return;
+                }
+
+                if (TextUtils.isEmpty(lastName)) {
+                    etLastName.setError("Last name is required");
+                    return;
+                }
+
+                if (TextUtils.isEmpty(email)) {
+                    etEmail.setError("Email is required");
+                    return;
+                }
+
+                if (TextUtils.isEmpty(phoneNumber)) {
+                    etPhoneNumber.setError("Phone number is required");
+                    return;
+                }
+
+                if (password.length() < 8) {
+                    etPassword.setError("Password is less than 8 characters");
+                    return;
+                }
+
+                btnRegister.setVisibility(View.GONE);
+                pbRegister.setVisibility(View.VISIBLE);
+
+//                if (firebaseAuth.getCurrentUser() != null) {
+//                    Toast.makeText(getActivity(), "User already exists", Toast.LENGTH_SHORT).show();
+//                    //Navigation.findNavController(v).navigate(R.id.home_fragment);
+//                }//else {
+
+                firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+
+                        if (task.isSuccessful()) {
+                            btnRegister.setVisibility(View.VISIBLE);
+                            pbRegister.setVisibility(View.GONE);
+
+                            Log.i("User Creation Log =====", "createUserWithEmail:success");
+                            FirebaseUser user = firebaseAuth.getCurrentUser();
+
+                            Toast.makeText(getActivity(), "User account has been created", Toast.LENGTH_SHORT).show();
+
+                            Navigation.findNavController(v).navigate(R.id.login_fragment);
+
+                        } else {
+                            btnRegister.setVisibility(View.VISIBLE);
+                            pbRegister.setVisibility(View.GONE);
+                            Toast.makeText(getActivity(), "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
                 break;
             case R.id.tv_login:

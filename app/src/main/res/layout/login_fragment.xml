@@ -7,7 +7,7 @@
     android:background="@drawable/gradient_background"
     android:gravity="center_vertical|center_horizontal"
     android:orientation="vertical"
-    android:padding="10dp"
+    android:padding="5dp"
     tools:context=".fragments.LoginFragment">
 
     <ImageView
@@ -22,7 +22,7 @@
         android:layout_margin="10dp"
         android:gravity="center_vertical|center_horizontal"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="5dp">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_email"
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             app:counterEnabled="true"
-            app:counterMaxLength="8"
+            app:counterMaxLength="12"
             app:counterTextColor="@android:color/darker_gray"
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@android:color/white"
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_password"
                 android:inputType="textPassword"
-                android:maxLength="8"
+                android:maxLength="12"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>

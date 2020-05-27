@@ -11,6 +11,7 @@
     <string name="finish">Finish</string>
     <string name="enter_email">Enter Email</string>
     <string name="enter_password">Enter Password</string>
+    <string name="enter_phone">Enter Phone</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="text_register">Don\'t have an account? Register</string>
