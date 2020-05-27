@@ -17,7 +17,6 @@
         android:src="@drawable/ic_launcher" />
 
     <LinearLayout
-        android:id="@+id/login_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -30,11 +29,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            app:errorEnabled="true"
             app:counterEnabled="true"
             app:counterMaxLength="25"
+            app:hintTextAppearance="@style/TextAppearance.AppCompat.Body1"
             app:counterTextColor="@android:color/darker_gray">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -63,7 +64,6 @@
                 android:hint="@string/enter_password"
                 android:inputType="textPassword"
                 android:maxLength="8"
-                android:theme="@style/EditTextTheme"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -87,7 +87,7 @@
 
         <androidx.legacy.widget.Space
             android:layout_width="match_parent"
-            android:layout_height="20dp"/>
+            android:layout_height="22dp"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_register"
@@ -95,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:text="@string/register"
+            android:text="@string/text_register"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@android:color/white"
             android:theme="@style/MaterialTheme" />

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "484762479274",
+    "firebase_url": "https://prochama-22e27.firebaseio.com",
+    "project_id": "prochama-22e27",
+    "storage_bucket": "prochama-22e27.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:484762479274:android:80cdce0ba0f94509e37ed3",
+        "android_client_info": {
+          "package_name": "manu.apps.prochama"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "484762479274-4s5oafdt5003d7sn2gu4o4vap65vj8uc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "manu.apps.prochama",
+            "certificate_hash": "0b1aee0a29a4b2d91e8e12e93b3cfac8e450c564"
+          }
+        },
+        {
+          "client_id": "484762479274-6b76a1tlc2anuis9m5apmcb5n3jsnfhl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArKLRbz0TCEbg1g0SSMCbxRzv7ORYlLEE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "484762479274-6b76a1tlc2anuis9m5apmcb5n3jsnfhl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

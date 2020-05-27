@@ -1,40 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_background"
+    android:gravity="center_vertical|center_horizontal"
+    android:orientation="vertical"
     tools:context=".fragments.RegisterFragment"
-    android:padding="5dp">
+    android:padding="10dp">
+
+    <ImageView
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/ic_launcher" />
 
     <LinearLayout
-        android:id="@+id/login_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_margin="1dp"
-        android:background="@color/colorBlack30"
-        android:gravity="center"
+        android:layout_margin="10dp"
+        android:gravity="center_vertical|center_horizontal"
         android:orientation="vertical"
-        android:padding="5dp">
+        android:padding="10dp">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_first_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@drawable/til_background"
+            app:errorEnabled="true"
             app:counterEnabled="true"
-            app:counterMaxLength="30">
+            app:counterMaxLength="25"
+            app:hintTextAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:counterTextColor="@android:color/darker_gray">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tiet_first_name"
+                android:id="@+id/et_first_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_first_name"
                 android:inputType="textPersonName"
-                android:maxLength="30" />
+                android:maxLength="25"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -43,36 +50,40 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@drawable/til_background"
+            app:errorEnabled="true"
             app:counterEnabled="true"
-            app:counterMaxLength="30">
+            app:counterMaxLength="25"
+            app:hintTextAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:counterTextColor="@android:color/darker_gray">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tiet_last_name"
+                android:id="@+id/et_last_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_last_name"
                 android:inputType="textPersonName"
-                android:maxLength="30" />
+                android:maxLength="25"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_username"
+            android:id="@+id/til_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@drawable/til_background"
+            app:errorEnabled="true"
             app:counterEnabled="true"
-            app:counterMaxLength="15">
+            app:counterMaxLength="25"
+            app:hintTextAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:counterTextColor="@android:color/darker_gray">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tiet_email"
+                android:id="@+id/et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_email"
-                android:inputType="textPersonName"
-                android:maxLength="15" />
+                android:inputType="textEmailAddress"
+                android:maxLength="25"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -81,17 +92,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@drawable/til_background"
+            app:errorEnabled="true"
             app:counterEnabled="true"
-            app:counterMaxLength="10">
+            app:counterMaxLength="25"
+            app:hintTextAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:counterTextColor="@android:color/darker_gray">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tiet_phone_number"
+                android:id="@+id/et_phone_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/enter_phone_number"
+                android:hint="@string/enter_email"
                 android:inputType="phone"
-                android:maxLength="10" />
+                android:maxLength="25"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -100,19 +113,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@drawable/til_background"
             app:counterEnabled="true"
             app:counterMaxLength="8"
+            app:counterTextColor="@android:color/darker_gray"
             app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@android:color/white">
+            app:passwordToggleTint="@android:color/white"
+            >
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tiet_password"
+            <EditText
+                android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_password"
                 android:inputType="textPassword"
-                android:maxLength="8" />
+                android:maxLength="8"
+                />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -122,7 +137,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:text="Register"
+            android:text="@string/register"
             android:textColor="@android:color/white"
             android:theme="@style/ButtonsTheme" />
 
@@ -130,7 +145,12 @@
             android:id="@+id/pb_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/MaterialTheme" />
+            android:theme="@style/MaterialTheme"
+            android:visibility="gone"/>
+
+        <androidx.legacy.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="22dp"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_login"
@@ -138,11 +158,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:text="@string/login"
+            android:text="@string/text_login"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@android:color/white"
-            android:theme="@style/MaterialTheme"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+            android:theme="@style/MaterialTheme"/>
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

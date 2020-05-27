@@ -12,16 +12,11 @@
     <string name="enter_email">Enter Email</string>
     <string name="enter_password">Enter Password</string>
     <string name="login">Login</string>
-    <string name="register">Don\'t have an account? Register</string>
-    <string name="username_empty_error">Username is required</string>
-    <string name="password_empty_error">Password is required</string>
-    <string name="first_name_empty_error">First name is required</string>
-    <string name="last_name_empty_error">Last name is required</string>
-    <string name="phone_number_empty_error">Phone number is required</string>
-
-    <string name="enter_first_name">Enter First Name</string>
-    <string name="enter_last_name">Enter Last Name</string>
-    <string name="enter_phone_number">Enter Phone Number</string>
+    <string name="register">Register</string>
+    <string name="text_register">Don\'t have an account? Register</string>
+    <string name="text_login">Already registered? Login here</string>
+    <string name="enter_first_name">Enter first name</string>
+    <string name="enter_last_name">Enter last name</string>
 
 
 </resources>

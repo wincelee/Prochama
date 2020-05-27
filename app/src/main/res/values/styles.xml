@@ -17,9 +17,6 @@
 
     </style>
 
-    <style name="EditTextTheme" parent="Theme.AppCompat.NoActionBar">
-        <!-- Customize your theme here. -->
-    </style>
 
     <style name="TextInputLayoutTheme" parent="Theme.MaterialComponents">
         <!-- Customize your theme here. -->
