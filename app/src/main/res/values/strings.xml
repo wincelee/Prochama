@@ -18,6 +18,8 @@
     <string name="text_login">Already registered? Login here</string>
     <string name="enter_first_name">Enter first name</string>
     <string name="enter_last_name">Enter last name</string>
+    <string name="oops">Oops!</string>
+    <string name="no_internet_connection_available">No internet connection available</string>
 
 
 </resources>

@@ -1,7 +1,12 @@
 package manu.apps.prochama.fragments;
 
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Service;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,12 +27,14 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import manu.apps.prochama.R;
+import manu.apps.prochama.classes.Config;
 
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
@@ -75,6 +82,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
         btnLogin.setOnClickListener(this);
         tvRegister.setOnClickListener(this);
+
+        //checkInternetConnection();
+
 
     }
 
@@ -141,5 +151,41 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         }
 
     }
+
+
+    private void checkInternetConnection() {
+
+        Snackbar snackbar;
+
+
+        ConnectivityManager connectivityManager = (ConnectivityManager)
+                getActivity().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+
+        if (null != activeNetwork) {
+
+            if (activeNetwork.getType() == connectivityManager.TYPE_WIFI) {
+                snackbar = Snackbar.make(getActivity().getWindow().getDecorView().getRootView(),
+                        "Wifi Enabled", Snackbar.LENGTH_SHORT);
+                View snackView = snackbar.getView();
+                /**Setting background color to the snack bar*/
+                snackView.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorCasey));
+                snackbar.show();
+            }
+            if (activeNetwork.getType() == connectivityManager.TYPE_MOBILE) {
+                Snackbar.make(getActivity().getWindow().getDecorView().getRootView(),
+                        "Data Network Enabled", Snackbar.LENGTH_SHORT).show();
+
+            }
+        } else {
+            snackbar = Snackbar.make(getActivity().getWindow().getDecorView().getRootView(),
+                    "No internet connection", Snackbar.LENGTH_LONG);
+            View snackView = snackbar.getView();
+            snackView.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorCasey));
+            snackbar.show();
+        }
+    }
+
 
 }
