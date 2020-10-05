@@ -32,9 +32,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@android:color/white</item>
-
     </style>
-
 
 
     <style name="ButtonsTheme" parent="Theme.MaterialComponents">
@@ -42,7 +40,6 @@
         <item name="colorPrimary">@color/colorCasey</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@android:color/white</item>
-
     </style>
 
 

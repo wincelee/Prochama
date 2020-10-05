@@ -2,7 +2,6 @@ package manu.apps.prochama.fragments;
 
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +23,7 @@ import android.widget.LinearLayout;
 import manu.apps.prochama.R;
 import manu.apps.prochama.adapters.SlidesPagerAdapter;
 import manu.apps.prochama.classes.PreferenceManager;
+import manu.apps.prochama.viewmodels.SlidesViewModel;
 
 public class SlidesFragment extends Fragment implements View.OnClickListener {
 

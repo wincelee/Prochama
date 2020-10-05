@@ -3,7 +3,6 @@ package manu.apps.prochama.fragments;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.app.Service;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -12,6 +11,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.text.TextUtils;
@@ -32,9 +32,18 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import manu.apps.prochama.R;
-import manu.apps.prochama.classes.Config;
+import manu.apps.prochama.classes.GlobalVariables;
+import manu.apps.prochama.classes.User;
+import manu.apps.prochama.viewmodels.LoginViewModel;
 
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
@@ -48,6 +57,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     private FirebaseAuth firebaseAuth;
 
+    private NavController navController;
+
 
     public static LoginFragment newInstance() {
         return new LoginFragment();
@@ -56,6 +67,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.login_fragment, container, false);
     }
 
@@ -71,6 +83,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+        navController = Navigation.findNavController(view);
+
 
         tilEmail = view.findViewById(R.id.til_email);
         tilPassword = view.findViewById(R.id.til_password);
@@ -115,18 +131,36 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+
                         if (task.isSuccessful()){
 
-                            btnLogin.setVisibility(View.VISIBLE);
-                            pbLogin.setVisibility(View.GONE);
+                            Log.i("User Login Log =====", "loginUserWithEmail:success");
 
-                            Log.i("User Loggin Log =====", "loginUserWithEmail:success");
-                            FirebaseUser user = firebaseAuth.getCurrentUser();
+                            FirebaseDatabase.getInstance().getReference("Users")
+                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            GlobalVariables.currentUser = snapshot.getValue(User.class);
 
-                            Toast.makeText(getActivity(), "Login is successful", Toast.LENGTH_SHORT).show();
-                            Navigation.findNavController(v).navigate(R.id.action_login_to_deposits_fragment);
+                                            Toast.makeText(getActivity(), "Login is successful", Toast.LENGTH_SHORT).show();
+
+                                            navController.navigate(R.id.action_login_to_wallet_fragment);
+
+                                            btnLogin.setVisibility(View.VISIBLE);
+                                            pbLogin.setVisibility(View.GONE);
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+
 
                         }else {
+
                             btnLogin.setVisibility(View.VISIBLE);
                             pbLogin.setVisibility(View.GONE);
                             Toast.makeText(getActivity(), "Error !" + task.getException(), Toast.LENGTH_LONG).show();

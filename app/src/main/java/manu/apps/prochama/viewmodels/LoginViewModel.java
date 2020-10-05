@@ -1,4 +1,4 @@
-package manu.apps.prochama.fragments;
+package manu.apps.prochama.viewmodels;
 
 import androidx.lifecycle.ViewModel;
 
