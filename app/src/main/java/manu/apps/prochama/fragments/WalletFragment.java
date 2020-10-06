@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 
@@ -25,6 +26,8 @@ public class WalletFragment extends Fragment {
 
     private WalletViewModel walletViewModel;
     MaterialToolbar walletToolBar;
+
+    TextView tvName;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -47,6 +50,10 @@ public class WalletFragment extends Fragment {
         walletViewModel = new ViewModelProvider(this).get(WalletViewModel.class);
 
         walletToolBar = view.findViewById(R.id.wallet_tool_bar);
+
+        tvName = view.findViewById(R.id.tv_name);
+
+        tvName.setText(GlobalVariables.currentUser.getFirstName());
 
         //((AppCompatActivity) getActivity()).setSupportActionBar(walletToolBar);
 
