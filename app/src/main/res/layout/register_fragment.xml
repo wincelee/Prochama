@@ -33,7 +33,9 @@
             app:counterEnabled="true"
             app:counterMaxLength="25"
             app:hintTextAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:counterTextColor="@android:color/darker_gray">
+            app:counterTextColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            app:hintTextColor="@color/colorAccent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_first_name"
@@ -41,7 +43,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_first_name"
                 android:inputType="textPersonName"
-                android:maxLength="25"/>
+                android:maxLength="25"
+                android:background="@drawable/et_background_selector"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -54,7 +57,9 @@
             app:counterEnabled="true"
             app:counterMaxLength="25"
             app:hintTextAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:counterTextColor="@android:color/darker_gray">
+            app:counterTextColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            app:hintTextColor="@color/colorAccent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_last_name"
@@ -62,7 +67,9 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_last_name"
                 android:inputType="textPersonName"
-                android:maxLength="25"/>
+                android:maxLength="25"
+                android:background="@drawable/et_background_selector"
+                android:textColor="@android:color/white"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -75,7 +82,9 @@
             app:counterEnabled="true"
             app:counterMaxLength="25"
             app:hintTextAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:counterTextColor="@android:color/darker_gray">
+            app:counterTextColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            app:hintTextColor="@color/colorAccent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_email"
@@ -83,7 +92,9 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_email"
                 android:inputType="textEmailAddress"
-                android:maxLength="25"/>
+                android:maxLength="25"
+                android:background="@drawable/et_background_selector"
+                android:textColor="@android:color/white"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -96,7 +107,9 @@
             app:counterEnabled="true"
             app:counterMaxLength="10"
             app:hintTextAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:counterTextColor="@android:color/darker_gray">
+            app:counterTextColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            app:hintTextColor="@color/colorAccent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_phone_number"
@@ -104,7 +117,9 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_phone"
                 android:inputType="phone"
-                android:maxLength="10"/>
+                android:maxLength="10"
+                android:background="@drawable/et_background_selector"
+                android:textColor="@android:color/white"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -118,7 +133,8 @@
             app:counterTextColor="@android:color/darker_gray"
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@android:color/white"
-            >
+            android:textColorHint="@android:color/white"
+            app:hintTextColor="@color/colorAccent">
 
             <EditText
                 android:id="@+id/et_password"
@@ -127,6 +143,8 @@
                 android:hint="@string/enter_password"
                 android:inputType="textPassword"
                 android:maxLength="12"
+                android:background="@drawable/et_background_selector"
+                android:textColor="@android:color/white"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>

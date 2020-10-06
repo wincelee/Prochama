@@ -33,7 +33,9 @@
             app:counterEnabled="true"
             app:counterMaxLength="25"
             app:hintTextAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:counterTextColor="@android:color/darker_gray">
+            app:counterTextColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            app:hintTextColor="@color/colorAccent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_email"
@@ -41,7 +43,9 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_email"
                 android:inputType="textEmailAddress"
-                android:maxLength="25"/>
+                android:maxLength="25"
+                android:textColor="@android:color/white"
+                android:background="@drawable/et_background_selector"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -52,10 +56,11 @@
             android:layout_margin="5dp"
             app:counterEnabled="true"
             app:counterMaxLength="12"
-            app:counterTextColor="@android:color/darker_gray"
+            app:counterTextColor="@android:color/white"
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@android:color/white"
-            >
+            android:textColorHint="@android:color/white"
+            app:hintTextColor="@color/colorAccent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_password"
@@ -64,6 +69,8 @@
                 android:hint="@string/enter_password"
                 android:inputType="textPassword"
                 android:maxLength="12"
+                android:textColor="@android:color/white"
+                android:background="@drawable/et_background_selector"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
