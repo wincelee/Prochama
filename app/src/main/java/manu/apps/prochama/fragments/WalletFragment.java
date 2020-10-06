@@ -1,6 +1,7 @@
 package manu.apps.prochama.fragments;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.appbar.MaterialToolbar;
+
 import manu.apps.prochama.R;
 import manu.apps.prochama.classes.GlobalVariables;
 import manu.apps.prochama.viewmodels.WalletViewModel;
@@ -21,6 +24,7 @@ import manu.apps.prochama.viewmodels.WalletViewModel;
 public class WalletFragment extends Fragment {
 
     private WalletViewModel walletViewModel;
+    MaterialToolbar walletToolBar;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -42,6 +46,10 @@ public class WalletFragment extends Fragment {
 
         walletViewModel = new ViewModelProvider(this).get(WalletViewModel.class);
 
+        walletToolBar = view.findViewById(R.id.wallet_tool_bar);
+
+        //((AppCompatActivity) getActivity()).setSupportActionBar(walletToolBar);
+
         Log.wtf("++++++++++++++++++++==========================First Name: ", GlobalVariables.currentUser.getFirstName());
         Log.wtf("++++++++++++++++++++==========================Last Name: ", GlobalVariables.currentUser.getLastName());
         Log.wtf("++++++++++++++++++++==========================Email: ", GlobalVariables.currentUser.getEmail());
@@ -56,5 +64,6 @@ public class WalletFragment extends Fragment {
 //
 //        AlertDialog alert11 = builder1.create();
 //        alert11.show();
+
     }
 }
