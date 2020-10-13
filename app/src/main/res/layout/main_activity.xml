@@ -7,12 +7,28 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/main_app_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+<!--            Remember to add material theme-->
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/main_tool_bar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/MaterialTheme"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                app:titleTextColor = "@android:color/white"
+                />
+
+        </com.google.android.material.appbar.AppBarLayout>
 
         <fragment
             android:id="@+id/nav_host_fragment"
@@ -20,7 +36,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/navigation_graph" />
+            app:navGraph="@navigation/navigation_graph"
+            android:layout_below="@id/main_app_bar_layout"/>
 
         <!--Set the menu here that is the same as the navigation drawer-->
 
@@ -30,16 +47,17 @@
         // Color tint of bottom navigation view menu title
         app:itemIconTint="@android:color/darker_gray"-->
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
+       <!-- <com.google.android.material.bottomnavigation.BottomNavigationView
             app:itemTextColor="@android:color/white"
             app:itemIconTint="@android:color/darker_gray"
             android:id="@+id/bottom_navigation_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
-            app:menu="@menu/drawer_menu" />
+            app:menu="@menu/drawer_menu"
+            android:layout_alignParentBottom="true"/>-->
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
     <com.google.android.material.navigation.NavigationView

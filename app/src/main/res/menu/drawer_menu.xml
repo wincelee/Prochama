@@ -2,10 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--remove the plus in id-->
+
+    <!-- set a content description on them so that
+    screen readers like TalkBack are able to announce -->
+
     <item
         android:id="@id/deposits_fragment"
         android:title="Deposits"
         android:icon="@drawable/ic_slides"
-        android:menuCategory="secondary"/>
+        android:menuCategory="secondary"
+        android:contentDescription="@string/deposits_content_description"/>
 
 </menu>

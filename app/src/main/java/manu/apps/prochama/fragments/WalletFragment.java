@@ -9,6 +9,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,7 +31,7 @@ public class WalletFragment extends Fragment {
     private WalletViewModel walletViewModel;
     MaterialToolbar walletToolBar;
 
-    TextView tvName;
+    NavController navController;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -51,11 +55,17 @@ public class WalletFragment extends Fragment {
 
         walletToolBar = view.findViewById(R.id.wallet_tool_bar);
 
-        tvName = view.findViewById(R.id.tv_name);
+        navController = Navigation.findNavController(view);
 
-        tvName.setText(GlobalVariables.currentUser.getFirstName());
+//        AppBarConfiguration appBarConfiguration =
+//                new AppBarConfiguration.Builder(navController.getGraph()).build();
+//
+//        NavigationUI.setupWithNavController(
+//                walletToolBar, navController, appBarConfiguration);
 
-        //((AppCompatActivity) getActivity()).setSupportActionBar(walletToolBar);
+        walletToolBar.setTitle("Good Morning " + GlobalVariables.currentUser.getFirstName());
+
+        ((AppCompatActivity) getActivity()).setSupportActionBar(walletToolBar);
 
         Log.wtf("++++++++++++++++++++==========================First Name: ", GlobalVariables.currentUser.getFirstName());
         Log.wtf("++++++++++++++++++++==========================Last Name: ", GlobalVariables.currentUser.getLastName());

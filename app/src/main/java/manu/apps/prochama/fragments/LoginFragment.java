@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -90,6 +91,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
         tilEmail = view.findViewById(R.id.til_email);
         tilPassword = view.findViewById(R.id.til_password);
+
         etEmail = view.findViewById(R.id.et_email);
         etPassword = view.findViewById(R.id.et_password);
         btnLogin = view.findViewById(R.id.btn_login);
@@ -114,59 +116,60 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 String password = etPassword.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email)){
-                    etEmail.setError("Email is required");
+                    tilEmail.setError("Email is required");
                 }
 
                 if (TextUtils.isEmpty(password)){
-                    etPassword.setError("Password is required");
+                    tilPassword.setError("Password is required");
                 }
 
                 if (password.length() < 8) {
                     etPassword.setText("Password must be greater that 8 characters");
-                }
+                }else {
 
-                btnLogin.setVisibility(View.GONE);
-                pbLogin.setVisibility(View.VISIBLE);
+                    btnLogin.setVisibility(View.GONE);
+                    pbLogin.setVisibility(View.VISIBLE);
 
-                firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+                    firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
 
-                        if (task.isSuccessful()){
+                            if (task.isSuccessful()) {
 
-                            Log.i("User Login Log =====", "loginUserWithEmail:success");
+                                Log.i("User Login Log =====", "loginUserWithEmail:success");
 
-                            FirebaseDatabase.getInstance().getReference("Users")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            GlobalVariables.currentUser = snapshot.getValue(User.class);
+                                FirebaseDatabase.getInstance().getReference("Users")
+                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                GlobalVariables.currentUser = snapshot.getValue(User.class);
 
-                                            Toast.makeText(getActivity(), "Login is successful", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getActivity(), "Login is successful", Toast.LENGTH_SHORT).show();
 
-                                            navController.navigate(R.id.action_login_to_wallet_fragment);
+                                                navController.navigate(R.id.action_login_to_wallet_fragment);
 
-                                            btnLogin.setVisibility(View.VISIBLE);
-                                            pbLogin.setVisibility(View.GONE);
+                                                btnLogin.setVisibility(View.VISIBLE);
+                                                pbLogin.setVisibility(View.GONE);
 
-                                        }
+                                            }
 
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
 
-                                        }
-                                    });
+                                            }
+                                        });
 
 
-                        }else {
+                            } else {
 
-                            btnLogin.setVisibility(View.VISIBLE);
-                            pbLogin.setVisibility(View.GONE);
-                            Toast.makeText(getActivity(), "Error !" + task.getException(), Toast.LENGTH_LONG).show();
+                                btnLogin.setVisibility(View.VISIBLE);
+                                pbLogin.setVisibility(View.GONE);
+                                Toast.makeText(getActivity(), "Error !" + task.getException(), Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
-                });
+                    });
+                }
 
                 break;
 

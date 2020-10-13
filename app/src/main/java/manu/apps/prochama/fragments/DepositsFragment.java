@@ -10,14 +10,7 @@ import android.view.ViewGroup;
 
 import manu.apps.prochama.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class DepositsFragment extends Fragment {
-
-    public DepositsFragment() {
-        // Required empty public constructor
-    }
 
 
     @Override

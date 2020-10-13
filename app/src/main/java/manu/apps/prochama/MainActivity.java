@@ -26,6 +26,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     private NavController navController;
     private AppBarConfiguration appBarConfiguration;
 
+    MaterialToolbar mainToolBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +56,9 @@ public class MainActivity extends AppCompatActivity {
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
-        bottomNavigationView = findViewById(R.id.bottom_navigation_view);
+        //bottomNavigationView = findViewById(R.id.bottom_navigation_view);
+
+        mainToolBar = findViewById(R.id.main_tool_bar);
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
@@ -61,9 +66,13 @@ public class MainActivity extends AppCompatActivity {
                 .setOpenableLayout(drawerLayout)
                 .build();
 
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
-        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        // Setting up Navigation Drawer, Bottom Navigation View with default action bar
+//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+//        NavigationUI.setupWithNavController(navigationView, navController);
+//        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+
+        // Setting up Navigation Drawer with custom toolbar
+        NavigationUI.setupWithNavController(mainToolBar, navController, appBarConfiguration);
 
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
@@ -73,8 +82,9 @@ public class MainActivity extends AppCompatActivity {
 
                     // If your are using your own custom toolbar
                     //topAppBar.setVisibility(View.GONE);
+                    mainToolBar.setVisibility(View.GONE);
 
-                    getSupportActionBar().hide();
+                    //getSupportActionBar().hide();
 
                     getWindow().setFlags(
                             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
@@ -85,8 +95,9 @@ public class MainActivity extends AppCompatActivity {
 
                     // If your are using your own custom toolbar
                     //topAppBar.setVisibility(View.VISIBLE);
+                    mainToolBar.setVisibility(View.VISIBLE);
 
-                    getSupportActionBar().show();
+                    //getSupportActionBar().show();
 
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
@@ -188,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
             connectivityManager.unregisterNetworkCallback(networkCallback);
@@ -197,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
+
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
     }

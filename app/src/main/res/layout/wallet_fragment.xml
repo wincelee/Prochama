@@ -15,10 +15,10 @@
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="200dp"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleTextAppearance="@android:color/transparent"
+            app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <RelativeLayout
@@ -28,42 +28,43 @@
                 android:padding="5dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/display_pic"
+                    android:id="@+id/imv_display_pic"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
                     android:layout_centerInParent="true"
                     android:src="@drawable/ic_launcher"
-                    app:civ_border_width="2dp"
-                    app:civ_border_color="@android:color/white"/>
+                    app:civ_border_color="@android:color/white"
+                    app:civ_border_width="2dp" />
 
                 <RelativeLayout
+                    android:id="@+id/relative_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/display_pic"
-                    android:layout_toRightOf="@+id/display_pic">
-
-                    <TextView
-                        android:id="@+id/tv_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:text="Welcome Wince"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+                    android:layout_toEndOf="@+id/imv_display_pic"
+                    android:layout_toRightOf="@+id/imv_display_pic">
 
                     <TextView
                         android:id="@+id/tv_wallet_balance"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_name"
                         android:layout_marginStart="10dp"
                         android:layout_marginLeft="10dp"
                         android:text="Ksh 1000"
-                        android:textColor="@android:color/white"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:id="@+id/tv_display_wallet_balance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_wallet_balance"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:text="Wallet Balance"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                 </RelativeLayout>
 
@@ -75,10 +76,58 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:title="Username"/>
+                app:title="Username" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_add_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:text="Add Money"
+                android:textColor="@android:color/white"
+                android:theme="@style/ButtonsTheme"
+                app:icon="@drawable/ic_add_money"
+                app:iconTint="@android:color/white"
+                android:textAllCaps="false"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_withdraw_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_toEndOf="@+id/btn_add_money"
+                android:layout_toRightOf="@+id/btn_add_money"
+                android:text="Withdraw Money"
+                android:textColor="@android:color/white"
+                android:theme="@style/ButtonsTheme"
+                app:icon="@drawable/ic_withdraw"
+                app:iconTint="@android:color/white"
+                android:textAllCaps="false"/>
+
+        </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
