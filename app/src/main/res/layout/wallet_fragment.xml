@@ -123,7 +123,7 @@
                 android:theme="@style/ButtonsTheme"
                 app:icon="@drawable/ic_withdraw"
                 app:iconTint="@android:color/white"
-                android:textAllCaps="false"/>
+                android:textAllCaps="false" />
 
         </RelativeLayout>
 

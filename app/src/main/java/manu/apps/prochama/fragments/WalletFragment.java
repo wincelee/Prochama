@@ -4,6 +4,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,18 +21,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
 
 import manu.apps.prochama.R;
 import manu.apps.prochama.classes.GlobalVariables;
 import manu.apps.prochama.viewmodels.WalletViewModel;
 
-public class WalletFragment extends Fragment {
+public class WalletFragment extends Fragment implements View.OnClickListener {
 
     private WalletViewModel walletViewModel;
     MaterialToolbar walletToolBar;
+    MaterialButton btnAddMoney, btnWithdrawMoney;
 
     NavController navController;
 
@@ -57,6 +64,9 @@ public class WalletFragment extends Fragment {
 
         navController = Navigation.findNavController(view);
 
+        btnAddMoney = view.findViewById(R.id.btn_add_money);
+        btnWithdrawMoney = view.findViewById(R.id.btn_withdraw_money);
+
 //        AppBarConfiguration appBarConfiguration =
 //                new AppBarConfiguration.Builder(navController.getGraph()).build();
 //
@@ -81,6 +91,52 @@ public class WalletFragment extends Fragment {
 //
 //        AlertDialog alert11 = builder1.create();
 //        alert11.show();
+
+        btnAddMoney.setOnClickListener(this);
+        btnWithdrawMoney.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_add_money:
+                addMoney();
+                break;
+            case R.id.btn_withdraw_money:
+                break;
+        }
+    }
+
+    private void addMoney(){
+
+        Dialog addMoneyDialog = new Dialog(getActivity());
+        addMoneyDialog.setContentView(R.layout.layout_add_money);
+        addMoneyDialog.show();
+
+        Button btnMpesa = addMoneyDialog.findViewById(R.id.btn_mpesa);
+        Button btnCheque = addMoneyDialog.findViewById(R.id.btn_cheque);
+
+        btnMpesa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        btnCheque.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        // Setting dialog background to transparent
+        addMoneyDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        // Setting size of the dialog
+        addMoneyDialog.getWindow().setLayout(LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
 
     }
 }
