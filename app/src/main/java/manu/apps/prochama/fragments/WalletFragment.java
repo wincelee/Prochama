@@ -27,6 +27,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidstudy.daraja.Daraja;
+import com.androidstudy.daraja.DarajaListener;
+import com.androidstudy.daraja.model.AccessToken;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -43,6 +46,8 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
     MaterialButton btnAddMoney, btnWithdrawMoney;
 
     NavController navController;
+
+    Daraja daraja;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -71,6 +76,23 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
         btnAddMoney = view.findViewById(R.id.btn_add_money);
         btnWithdrawMoney = view.findViewById(R.id.btn_withdraw_money);
 
+        daraja = Daraja.with("PAh0e0qaAR3XbwAAMHghF9HGtTwFnmsx", "JuGnn67udzbFwxzd", new DarajaListener<AccessToken>() {
+            @Override
+            public void onResult(@NonNull AccessToken accessToken) {
+
+                Log.wtf("AccessToken++++++++++++++=================== :  ", accessToken.getAccess_token());
+                /**Code below is used to display the tokens*/
+                //Toast.makeText(MainActivity.this, "TOKEN : " + accessToken.getAccess_token(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(String error) {
+
+                Log.wtf("AccessToken++++++++++++++===================  :  ", error);
+
+            }
+        });
+
 //        AppBarConfiguration appBarConfiguration =
 //                new AppBarConfiguration.Builder(navController.getGraph()).build();
 //
@@ -85,16 +107,6 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
         Log.wtf("++++++++++++++++++++==========================Last Name: ", GlobalVariables.currentUser.getLastName());
         Log.wtf("++++++++++++++++++++==========================Email: ", GlobalVariables.currentUser.getEmail());
         Log.wtf("++++++++++++++++++++==========================Phone Number: ", GlobalVariables.currentUser.getPhoneNumber());
-
-//        AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
-//        builder1.setMessage("First Name: " + GlobalVariables.currentUser.getFirstName());
-//        builder1.setMessage("Last Name: " + GlobalVariables.currentUser.getLastName());
-//        builder1.setMessage("Email: " + GlobalVariables.currentUser.getEmail());
-//        builder1.setMessage("Phone Number: " + GlobalVariables.currentUser.getPhoneNumber());
-//        builder1.setCancelable(true);
-//
-//        AlertDialog alert11 = builder1.create();
-//        alert11.show();
 
         btnAddMoney.setOnClickListener(this);
         btnWithdrawMoney.setOnClickListener(this);
