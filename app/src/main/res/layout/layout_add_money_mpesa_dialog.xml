@@ -29,7 +29,7 @@
             android:layout_margin="5dp"
             android:textColorHint="@android:color/white"
             app:counterEnabled="true"
-            app:counterMaxLength="25"
+            app:counterMaxLength="10"
             app:counterTextColor="@android:color/white"
             app:errorEnabled="true"
             app:hintTextAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -42,7 +42,7 @@
                 android:background="@drawable/et_background_selector"
                 android:hint="Enter Phone Number in the format of 07xx"
                 android:inputType="number"
-                android:maxLength="25"
+                android:maxLength="10"
                 android:textColor="@android:color/white" />
 
         </com.google.android.material.textfield.TextInputLayout>

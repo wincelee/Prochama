@@ -17,11 +17,13 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -30,13 +32,19 @@ import android.widget.Toast;
 import com.androidstudy.daraja.Daraja;
 import com.androidstudy.daraja.DarajaListener;
 import com.androidstudy.daraja.model.AccessToken;
+import com.androidstudy.daraja.model.LNMExpress;
+import com.androidstudy.daraja.model.LNMResult;
+import com.androidstudy.daraja.util.TransactionType;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import manu.apps.prochama.R;
+import manu.apps.prochama.classes.Config;
+import manu.apps.prochama.classes.CustomTextWatcher;
 import manu.apps.prochama.classes.GlobalVariables;
+import manu.apps.prochama.classes.ThousandTextWatcher;
 import manu.apps.prochama.viewmodels.WalletViewModel;
 
 public class WalletFragment extends Fragment implements View.OnClickListener {
@@ -115,7 +123,7 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
 
             case R.id.btn_add_money:
 
@@ -129,7 +137,7 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void addMoney(){
+    private void addMoney() {
 
         final Dialog addMoneyDialog = new Dialog(getActivity());
         addMoneyDialog.setContentView(R.layout.layout_add_money);
@@ -149,11 +157,16 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
                 stkPushDialog.setCancelable(false);
                 stkPushDialog.show();
 
-                TextInputLayout tilAddMoneyPhoneNumber = stkPushDialog.findViewById(R.id.til_add_money_phone_number);
-                TextInputLayout tilAmount = stkPushDialog.findViewById(R.id.til_amount);
+                final TextInputLayout tilAddMoneyPhoneNumber = stkPushDialog.findViewById(R.id.til_add_money_phone_number);
+                final TextInputLayout tilAmount = stkPushDialog.findViewById(R.id.til_amount);
 
-                TextInputEditText etAddMoneyPhoneNumber = stkPushDialog.findViewById(R.id.et_add_money_phone_number);
-                TextInputEditText etAmount = stkPushDialog.findViewById(R.id.et_amount);
+                final TextInputEditText etAddMoneyPhoneNumber = stkPushDialog.findViewById(R.id.et_add_money_phone_number);
+                final EditText etAmount = stkPushDialog.findViewById(R.id.et_amount);
+
+                etAddMoneyPhoneNumber.addTextChangedListener(new CustomTextWatcher(tilAddMoneyPhoneNumber));
+                etAmount.addTextChangedListener(new CustomTextWatcher(tilAmount));
+
+                etAmount.addTextChangedListener(new ThousandTextWatcher(etAmount));
 
                 final MaterialButton btnDeposit = stkPushDialog.findViewById(R.id.btn_deposit);
                 final MaterialButton btnCancel = stkPushDialog.findViewById(R.id.btn_cancel);
@@ -163,11 +176,69 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onClick(View v) {
 
-                        btnDeposit.setVisibility(View.GONE);
-                        btnCancel.setVisibility(View.GONE);
-                        pbDeposit.setVisibility(View.VISIBLE);
 
-                        Toast.makeText(getActivity(), "Deposits button clicked", Toast.LENGTH_SHORT).show();
+                        String stkPushPhoneNumber = etAddMoneyPhoneNumber.getText().toString().trim();
+                        String amount = ThousandTextWatcher.trimCommaOfString(etAmount.getText().toString().trim());
+
+                        if (TextUtils.isEmpty(stkPushPhoneNumber)) {
+                            tilAddMoneyPhoneNumber.setError("Phone Number is required");
+                            etAddMoneyPhoneNumber.requestFocus();
+                        }
+
+                        if (TextUtils.isEmpty(amount)) {
+                            tilAmount.setError("Amount is required");
+
+                            if (!etAddMoneyPhoneNumber.hasFocus()) {
+                                etAmount.requestFocus();
+                            }
+
+                        } else {
+
+                            btnDeposit.setVisibility(View.GONE);
+                            btnCancel.setVisibility(View.GONE);
+                            pbDeposit.setVisibility(View.VISIBLE);
+
+                            //TODO :: REPLACE WITH YOUR OWN CREDENTIALS  :: THIS IS SANDBOX DEMO
+                            LNMExpress lnmExpress = new LNMExpress(
+                                    "174379",
+                                    "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919",//https://developer.safaricom.co.ke/test_credentials
+                                    TransactionType.CustomerPayBillOnline,
+                                    amount,
+                                    stkPushPhoneNumber,
+                                    "174379",
+                                    stkPushPhoneNumber,
+                                    "http://mpesa-requestbin.herokuapp.com/1aw7lsj1",
+                                    "Prochama",
+                                    "Deposit"
+                            );
+
+                            daraja.requestMPESAExpress(lnmExpress,
+                                    new DarajaListener<LNMResult>() {
+                                        @Override
+                                        public void onResult(@NonNull LNMResult lnmResult) {
+
+                                            Log.wtf("STK Push ResponseCode ++++================: ", lnmResult.CustomerMessage);
+                                            Log.wtf("STK Push ResponseDescription ++++================: ", lnmResult.ResponseDescription);
+                                            Log.wtf("STK Push CustomerMessage ++++================: ", lnmResult.CustomerMessage);
+
+
+                                            stkPushDialog.dismiss();
+                                            Config.showSnackBar(getActivity(), "Processing Deposit");
+                                        }
+
+                                        @Override
+                                        public void onError(String error) {
+
+                                            Log.wtf("STK Push Request Error ++++================: ", error);
+
+                                            stkPushDialog.dismiss();
+                                            Config.showSnackBar(getActivity(), "We encountered an error");
+
+                                        }
+                                    }
+                            );
+
+                        }
 
                     }
                 });
