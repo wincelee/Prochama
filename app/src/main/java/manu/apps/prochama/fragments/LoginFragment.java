@@ -60,7 +60,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     private NavController navController;
 
-
     public static LoginFragment newInstance() {
         return new LoginFragment();
     }

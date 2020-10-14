@@ -23,7 +23,7 @@
             android:textColor="@android:color/white" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_enter_phone_number"
+            android:id="@+id/til_add_money_phone_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -36,7 +36,7 @@
             app:hintTextColor="@color/colorAccent">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_phone_number"
+                android:id="@+id/et_add_money_phone_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/et_background_selector"
@@ -73,11 +73,27 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_proceed"
+            android:id="@+id/btn_deposit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="@string/proceed"
+            android:text="Deposit"
+            android:textColor="@android:color/white"
+            android:theme="@style/MaterialTheme" />
+
+        <ProgressBar
+            android:id="@+id/pb_deposit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/MaterialTheme"
+            android:visibility="gone" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Cancel"
             android:textColor="@android:color/white"
             android:theme="@style/MaterialTheme" />
 

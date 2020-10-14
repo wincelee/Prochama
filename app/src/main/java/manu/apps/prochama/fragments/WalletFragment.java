@@ -23,10 +23,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import manu.apps.prochama.R;
 import manu.apps.prochama.classes.GlobalVariables;
@@ -128,15 +132,48 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
 
                 addMoneyDialog.dismiss();
 
-                Dialog addMoneyDialog = new Dialog(getActivity());
-                addMoneyDialog.setContentView(R.layout.layout_add_money_mpesa_dialog);
-                addMoneyDialog.show();
+                final Dialog stkPushDialog = new Dialog(getActivity());
+                stkPushDialog.setContentView(R.layout.layout_add_money_mpesa_dialog);
+                stkPushDialog.setCancelable(false);
+                stkPushDialog.show();
+
+                TextInputLayout tilAddMoneyPhoneNumber = stkPushDialog.findViewById(R.id.til_add_money_phone_number);
+                TextInputLayout tilAmount = stkPushDialog.findViewById(R.id.til_amount);
+
+                TextInputEditText etAddMoneyPhoneNumber = stkPushDialog.findViewById(R.id.et_add_money_phone_number);
+                TextInputEditText etAmount = stkPushDialog.findViewById(R.id.et_amount);
+
+                final MaterialButton btnDeposit = stkPushDialog.findViewById(R.id.btn_deposit);
+                final MaterialButton btnCancel = stkPushDialog.findViewById(R.id.btn_cancel);
+                final ProgressBar pbDeposit = stkPushDialog.findViewById(R.id.pb_deposit);
+
+                btnDeposit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        btnDeposit.setVisibility(View.GONE);
+                        btnCancel.setVisibility(View.GONE);
+                        pbDeposit.setVisibility(View.VISIBLE);
+
+                        Toast.makeText(getActivity(), "Deposits button clicked", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        stkPushDialog.dismiss();
+
+                    }
+                });
 
                 // Setting dialog background to transparent
-                addMoneyDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                stkPushDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
                 // Setting size of the dialog
-                addMoneyDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT,
+                stkPushDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT);
             }
         });
