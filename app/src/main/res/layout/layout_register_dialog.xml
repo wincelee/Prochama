@@ -35,5 +35,4 @@
         android:theme="@style/MaterialTheme"
         android:textColor="@android:color/white"/>
 
-
 </LinearLayout>

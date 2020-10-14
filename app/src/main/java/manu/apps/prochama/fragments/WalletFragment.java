@@ -100,17 +100,22 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+
             case R.id.btn_add_money:
+
                 addMoney();
+
                 break;
+
             case R.id.btn_withdraw_money:
+
                 break;
         }
     }
 
     private void addMoney(){
 
-        Dialog addMoneyDialog = new Dialog(getActivity());
+        final Dialog addMoneyDialog = new Dialog(getActivity());
         addMoneyDialog.setContentView(R.layout.layout_add_money);
         addMoneyDialog.show();
 
@@ -121,6 +126,18 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(View v) {
 
+                addMoneyDialog.dismiss();
+
+                Dialog addMoneyDialog = new Dialog(getActivity());
+                addMoneyDialog.setContentView(R.layout.layout_add_money_mpesa_dialog);
+                addMoneyDialog.show();
+
+                // Setting dialog background to transparent
+                addMoneyDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                // Setting size of the dialog
+                addMoneyDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
             }
         });
 
