@@ -142,6 +142,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                                         .addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                                                 GlobalVariables.currentUser = snapshot.getValue(User.class);
 
                                                 Toast.makeText(getActivity(), "Login is successful", Toast.LENGTH_SHORT).show();

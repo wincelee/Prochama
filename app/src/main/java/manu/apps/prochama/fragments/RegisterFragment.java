@@ -164,13 +164,14 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
                                 databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
 
-                                HashMap<String, String> hashMap = new HashMap<>();
+                                HashMap<String, Object> hashMap = new HashMap<>();
                                 hashMap.put("userId", userId);
                                 hashMap.put("firstName", firstName);
                                 hashMap.put("lastName", lastName);
                                 hashMap.put("email", email);
                                 hashMap.put("phoneNumber", phoneNumber);
                                 hashMap.put("displayPic", "default");
+                                hashMap.put("walletBalance", 0.0);
 
                                 databaseReference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
@@ -203,7 +204,12 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                                             btnProceed.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
-                                                    navController.navigate(R.id.action_register_to_wallet_fragment);
+
+                                                    Bundle bundle = new Bundle();
+                                                    bundle.putString("firstName", firstName);
+                                                    bundle.putSerializable("SERIALIZABLE","serializable");
+
+                                                    navController.navigate(R.id.action_register_to_wallet_fragment, bundle);
                                                     registerDialog.dismiss();
                                                 }
                                             });

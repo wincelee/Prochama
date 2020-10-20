@@ -1,6 +1,5 @@
 package manu.apps.prochama.fragments;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -57,6 +56,10 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
 
     Daraja daraja;
 
+    TextView tvWalletBalance;
+
+    String parsedFirstName;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -78,8 +81,11 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
         walletViewModel = new ViewModelProvider(this).get(WalletViewModel.class);
 
         walletToolBar = view.findViewById(R.id.wallet_tool_bar);
+        tvWalletBalance = view.findViewById(R.id.tv_wallet_balance);
 
         navController = Navigation.findNavController(view);
+        
+        MaterialToolbar walletToolBar = view.findViewById(R.id.wallet_tool_bar);
 
         btnAddMoney = view.findViewById(R.id.btn_add_money);
         btnWithdrawMoney = view.findViewById(R.id.btn_withdraw_money);
@@ -107,7 +113,23 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
 //        NavigationUI.setupWithNavController(
 //                walletToolBar, navController, appBarConfiguration);
 
-        walletToolBar.setTitle("Good Morning " + GlobalVariables.currentUser.getFirstName());
+
+        Bundle arguments = getArguments();
+
+        if (arguments != null && arguments.containsKey("SERIALIZABLE")){
+
+            parsedFirstName = getArguments().getString("firstName");
+            walletToolBar.setTitle("Good Morning " + parsedFirstName);
+
+            tvWalletBalance.setText("Ksh " + "0");
+
+        }else {
+            walletToolBar.setTitle("Good Morning " + GlobalVariables.currentUser.getFirstName());
+
+            tvWalletBalance.setText("Ksh " + String.valueOf(GlobalVariables.currentUser.getWalletBalance()));
+
+        }
+
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(walletToolBar);
 
@@ -123,17 +145,9 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-
-            case R.id.btn_add_money:
-
-                addMoney();
-
-                break;
-
-            case R.id.btn_withdraw_money:
-
-                break;
+        int id = v.getId();
+        if (id == R.id.btn_add_money) {
+            addMoney();
         }
     }
 
