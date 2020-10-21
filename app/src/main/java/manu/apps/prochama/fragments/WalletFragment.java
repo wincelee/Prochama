@@ -1,9 +1,11 @@
 package manu.apps.prochama.fragments;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -13,8 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,7 +26,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.androidstudy.daraja.Daraja;
 import com.androidstudy.daraja.DarajaListener;
@@ -34,10 +33,22 @@ import com.androidstudy.daraja.model.AccessToken;
 import com.androidstudy.daraja.model.LNMExpress;
 import com.androidstudy.daraja.model.LNMResult;
 import com.androidstudy.daraja.util.TransactionType;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import manu.apps.prochama.R;
 import manu.apps.prochama.classes.Config;
@@ -56,9 +67,14 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
 
     Daraja daraja;
 
-    TextView tvWalletBalance;
+    TextView tvWalletBalance, tvRealTime;
 
-    String parsedFirstName;
+    FirebaseAuth firebaseAuth;
+
+    String globalUserId;
+    double globalWalletBalance;
+
+    DatabaseReference databaseReference;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -82,9 +98,15 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
 
         walletToolBar = view.findViewById(R.id.wallet_tool_bar);
         tvWalletBalance = view.findViewById(R.id.tv_wallet_balance);
+        tvRealTime = view.findViewById(R.id.tv_real_time);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        //databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Users");
 
         navController = Navigation.findNavController(view);
-        
+
         MaterialToolbar walletToolBar = view.findViewById(R.id.wallet_tool_bar);
 
         btnAddMoney = view.findViewById(R.id.btn_add_money);
@@ -116,22 +138,43 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
 
         Bundle arguments = getArguments();
 
-        if (arguments != null && arguments.containsKey("SERIALIZABLE")){
+        if (arguments != null && arguments.containsKey("SERIALIZABLE")) {
 
-            parsedFirstName = getArguments().getString("firstName");
+            String parsedFirstName = getArguments().getString("firstName");
+            String parsedUserId = getArguments().getString("userId");
             walletToolBar.setTitle("Good Morning " + parsedFirstName);
+
+//            new AlertDialog.Builder(getActivity())
+//                    .setTitle("User ID")
+//                    .setMessage(parsedUserId)
+//                    .show();
 
             tvWalletBalance.setText("Ksh " + "0");
 
-        }else {
+            globalUserId = parsedUserId;
+
+
+        } else {
+
             walletToolBar.setTitle("Good Morning " + GlobalVariables.currentUser.getFirstName());
 
-            tvWalletBalance.setText("Ksh " + String.valueOf(GlobalVariables.currentUser.getWalletBalance()));
+            tvWalletBalance.setText("Ksh " + GlobalVariables.currentUser.getWalletBalance());
+
+            FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+            assert firebaseUser != null;
+            String userId = firebaseUser.getUid();
+
+//            new AlertDialog.Builder(getActivity())
+//                    .setTitle("User ID")
+//                    .setMessage(userId)
+//                    .show();
+
+            globalUserId = userId;
 
         }
 
-
         ((AppCompatActivity) getActivity()).setSupportActionBar(walletToolBar);
+
 
         Log.wtf("++++++++++++++++++++==========================First Name: ", GlobalVariables.currentUser.getFirstName());
         Log.wtf("++++++++++++++++++++==========================Last Name: ", GlobalVariables.currentUser.getLastName());
@@ -148,6 +191,9 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
         int id = v.getId();
         if (id == R.id.btn_add_money) {
             addMoney();
+        }
+        if (id == R.id.btn_withdraw_money) {
+            //
         }
     }
 
@@ -192,7 +238,7 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
 
 
                         String stkPushPhoneNumber = etAddMoneyPhoneNumber.getText().toString().trim();
-                        String amount = ThousandTextWatcher.trimCommaOfString(etAmount.getText().toString().trim());
+                        final String amount = ThousandTextWatcher.trimCommaOfString(etAmount.getText().toString().trim());
 
                         if (TextUtils.isEmpty(stkPushPhoneNumber)) {
                             tilAddMoneyPhoneNumber.setError("Phone Number is required");
@@ -221,7 +267,7 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
                                     stkPushPhoneNumber,
                                     "174379",
                                     stkPushPhoneNumber,
-                                    "http://mpesa-requestbin.herokuapp.com/1aw7lsj1",
+                                    "https://mpesa-requestbin.herokuapp.com/1d11kpx1",
                                     "Prochama",
                                     "Deposit"
                             );
@@ -235,9 +281,14 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
                                             Log.wtf("STK Push ResponseDescription ++++================: ", lnmResult.ResponseDescription);
                                             Log.wtf("STK Push CustomerMessage ++++================: ", lnmResult.CustomerMessage);
 
+                                            double calculateWalletBalance = globalWalletBalance;
+
+                                            calculateWalletBalance = calculateWalletBalance + Double.parseDouble(amount);
+
+                                            updateWalletBalance(calculateWalletBalance);
 
                                             stkPushDialog.dismiss();
-                                            Config.showSnackBar(getActivity(), "Processing Deposit");
+
                                         }
 
                                         @Override
@@ -289,5 +340,118 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
         addMoneyDialog.getWindow().setLayout(LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
+    }
+
+    private void readData() {
+
+        // Remember to document how we are getting the user id
+        databaseReference.child(globalUserId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+
+                    Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
+
+                    String firstName = (String) map.get("firstName");
+                    String lastName = (String) map.get("lastName");
+                    String phoneNumber = (String) map.get("phoneNumber");
+                    double walletBalance = (Long) map.get("walletBalance");
+
+
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("Read Data")
+                            .setMessage("FirstName: " + firstName + "\n" + "lastName: " + lastName + "\n" +
+                                    "phoneNumber: " + phoneNumber + "\n" + "walletBalance: " + walletBalance)
+                            .show();
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
+    // References
+    // Android Firebase - 10 - How Update Data in Firebase Realtime Database. - YouTube
+    // Youtube Link - https://youtu.be/0HLyJNuyhSo
+
+    private void updateWalletBalance(final double walletBalance) {
+
+        // Deleting every detail for a current user and adding new fields
+//        double walletBalance = 50.0;
+//
+//        HashMap<String, Object> hashMap = new HashMap<>();
+//        hashMap.put("walletBalance", walletBalance);
+//
+//        databaseReference.child(globalUserId).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+//            @Override
+//            public void onSuccess(Void aVoid) {
+//                Config.showSnackBar(getActivity(), "Updated Successfully");
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Config.showSnackBar(getActivity(), "Failed Please Try Again");
+//            }
+//        });
+
+        final ProgressDialog updateBalanceDialog = new ProgressDialog(getActivity());
+        updateBalanceDialog.setMessage("Updating..........");
+        updateBalanceDialog.setCancelable(false);
+
+        HashMap<String, Object> updateHashMap = new HashMap<>();
+        updateHashMap.put("walletBalance", walletBalance);
+
+        databaseReference.child(globalUserId).updateChildren(updateHashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+                tvWalletBalance.setText(String.valueOf(walletBalance));
+
+                Config.showSnackBar(getActivity(), "Success");
+
+                updateBalanceDialog.dismiss();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Config.showSnackBar(getActivity(), "We encountered an error try again");
+
+                updateBalanceDialog.dismiss();
+
+            }
+        });
+
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // Document Getting RealTime
+        databaseReference.child(globalUserId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
+
+                double walletBalance = (Long) map.get("walletBalance");
+                tvWalletBalance.setText("Ksh " + walletBalance);
+
+                globalWalletBalance = walletBalance;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

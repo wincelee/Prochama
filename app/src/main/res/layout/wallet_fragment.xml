@@ -88,44 +88,57 @@
         android:clipToPadding="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal">
+            android:orientation="vertical">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_add_money"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:text="Add Money"
-                android:textColor="@android:color/white"
-                android:theme="@style/ButtonsTheme"
-                app:icon="@drawable/ic_add_money"
-                app:iconTint="@android:color/white"
-                android:textAllCaps="false"/>
+                android:gravity="center_horizontal">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_withdraw_money"
-                android:layout_width="wrap_content"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_add_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:text="Add Money"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:theme="@style/ButtonsTheme"
+                    app:icon="@drawable/ic_add_money"
+                    app:iconTint="@android:color/white" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_withdraw_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_toEndOf="@+id/btn_add_money"
+                    android:layout_toRightOf="@+id/btn_add_money"
+                    android:text="Withdraw Money"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:theme="@style/ButtonsTheme"
+                    app:icon="@drawable/ic_withdraw"
+                    app:iconTint="@android:color/white" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_real_time"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:layout_toEndOf="@+id/btn_add_money"
-                android:layout_toRightOf="@+id/btn_add_money"
-                android:text="Withdraw Money"
-                android:textColor="@android:color/white"
-                android:theme="@style/ButtonsTheme"
-                app:icon="@drawable/ic_withdraw"
-                app:iconTint="@android:color/white"
-                android:textAllCaps="false" />
+                style="@style/TextAppearance.AppCompat.Display2"/>
 
-        </RelativeLayout>
+        </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 

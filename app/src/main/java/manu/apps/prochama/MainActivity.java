@@ -2,6 +2,7 @@ package manu.apps.prochama;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -21,6 +22,8 @@ import android.net.NetworkRequest;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -49,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     private NavController navController;
     private AppBarConfiguration appBarConfiguration;
 
+    private ActionBarDrawerToggle navDrawerToggle;
+
     MaterialToolbar mainToolBar;
 
     @Override
@@ -67,6 +72,12 @@ public class MainActivity extends AppCompatActivity {
         appBarConfiguration = new AppBarConfiguration.Builder(R.id.wallet_fragment)
                 .setOpenableLayout(drawerLayout)
                 .build();
+
+        navDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
+
+        // Setting ActionBarDrawerToggle Listener to drawer layout
+        drawerLayout.addDrawerListener(navDrawerToggle);
+        navDrawerToggle.syncState();
 
         // Setting up Navigation Drawer, Bottom Navigation View with default action bar
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
@@ -198,16 +209,6 @@ public class MainActivity extends AppCompatActivity {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected() && activeNetworkInfo.isAvailable() ;
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            connectivityManager.unregisterNetworkCallback(networkCallback);
-        }
-
-    }
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -241,5 +242,19 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        Log.wtf("HomeOnOptionsItemSelected++++++++=", "onOptionsItemSelected Accessed");
+
+        if (navDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
+        return NavigationUI.onNavDestinationSelected(item, navController)
+                || super.onOptionsItemSelected(item);
+
     }
 }

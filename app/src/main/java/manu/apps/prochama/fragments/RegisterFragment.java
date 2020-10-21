@@ -39,6 +39,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import manu.apps.prochama.R;
 import manu.apps.prochama.classes.Config;
@@ -160,7 +161,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
                                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                                 assert firebaseUser != null;
-                                String userId = firebaseUser.getUid();
+                                final String userId = firebaseUser.getUid();
 
                                 databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
 
@@ -207,6 +208,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
                                                     Bundle bundle = new Bundle();
                                                     bundle.putString("firstName", firstName);
+                                                    bundle.putString("userId", userId);
                                                     bundle.putSerializable("SERIALIZABLE","serializable");
 
                                                     navController.navigate(R.id.action_register_to_wallet_fragment, bundle);

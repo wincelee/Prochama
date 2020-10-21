@@ -41,6 +41,9 @@
         <item name="colorAccent">@android:color/white</item>
     </style>
 
+    <string name="open">open</string>
+    <string name="close">close</string>
+
 
 
 </resources>

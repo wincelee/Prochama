@@ -18,12 +18,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/deposits_fragment"
-        android:name="manu.apps.prochama.fragments.DepositsFragment"
-        android:label="Deposits"
-        tools:layout="@layout/fragment_deposits"/>
-
-    <fragment
         android:id="@+id/login_fragment"
         android:name="manu.apps.prochama.fragments.LoginFragment"
         android:label="Login"

@@ -7,10 +7,10 @@
     screen readers like TalkBack are able to announce -->
 
     <item
-        android:id="@id/deposits_fragment"
-        android:title="Deposits"
-        android:icon="@drawable/ic_slides"
+        android:id="@id/wallet_fragment"
+        android:title="My Wallet"
+        android:icon="@drawable/ic_add_money"
         android:menuCategory="secondary"
-        android:contentDescription="@string/deposits_content_description"/>
+        android:contentDescription="@string/wallet_fragment"/>
 
 </menu>
