@@ -12,9 +12,16 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.DecimalFormat;
+
 import manu.apps.prochama.R;
 
 public class Config {
+
+    public static String numberFormatter(double d) {
+        DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
+        return decimalFormat.format(d);
+    }
 
     public static void checkInternetConnection(Context context) {
 
