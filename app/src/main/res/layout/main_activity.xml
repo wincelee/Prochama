@@ -68,6 +68,7 @@
         android:background="@drawable/gradient_background"
         android:theme="@style/Theme.Design"
         app:itemTextColor="@android:color/white"
+        app:itemIconTint="@android:color/white"
         app:menu="@menu/drawer_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -133,10 +133,19 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/tv_real_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/TextAppearance.AppCompat.Display2"/>
+                style="@style/TextAppearance.AppCompat.Title"
+                android:text="My Transactions"
+                android:layout_gravity="center"
+                android:textAlignment="center"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_transactions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:padding="5dp"/>
 
         </LinearLayout>
 

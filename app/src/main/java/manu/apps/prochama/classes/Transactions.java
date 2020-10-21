@@ -12,7 +12,7 @@ public class Transactions {
 
     @NonNull
     @PrimaryKey(autoGenerate = true)
-    String transactionId;
+    int transactionId;
 
     @ColumnInfo(name = "transaction_type")
     String transactionType;
@@ -24,18 +24,17 @@ public class Transactions {
 
     }
 
-    public Transactions(@NonNull String transactionId, String transactionType, double amount) {
+    public Transactions(int transactionId, String transactionType, double amount) {
         this.transactionId = transactionId;
         this.transactionType = transactionType;
         this.amount = amount;
     }
 
-    @NonNull
-    public String getTransactionId() {
+    public int getTransactionId() {
         return transactionId;
     }
 
-    public void setTransactionId(@NonNull String transactionId) {
+    public void setTransactionId(int transactionId) {
         this.transactionId = transactionId;
     }
 

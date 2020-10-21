@@ -87,6 +87,9 @@ public class MainActivity extends AppCompatActivity {
         // Setting up Navigation Drawer with custom toolbar
         NavigationUI.setupWithNavController(mainToolBar, navController, appBarConfiguration);
 
+        // Sett up this to enable on clicks on the navigation view
+        NavigationUI.setupWithNavController(navigationView, navController);
+
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {

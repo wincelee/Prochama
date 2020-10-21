@@ -2,10 +2,11 @@ package manu.apps.prochama.fragments;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -13,8 +14,12 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -48,18 +53,21 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import manu.apps.prochama.R;
+import manu.apps.prochama.adapters.TransactionsAdapter;
 import manu.apps.prochama.classes.Config;
 import manu.apps.prochama.classes.CustomTextWatcher;
 import manu.apps.prochama.classes.GlobalVariables;
 import manu.apps.prochama.classes.ThousandTextWatcher;
-import manu.apps.prochama.viewmodels.WalletViewModel;
+import manu.apps.prochama.classes.Transactions;
+import manu.apps.prochama.viewmodels.TransactionsViewModel;
 
 public class WalletFragment extends Fragment implements View.OnClickListener {
 
-    private WalletViewModel walletViewModel;
+    TransactionsViewModel transactionsViewModel;
     MaterialToolbar walletToolBar;
     MaterialButton btnAddMoney, btnWithdrawMoney;
 
@@ -67,12 +75,16 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
 
     Daraja daraja;
 
-    TextView tvWalletBalance, tvRealTime;
+    TextView tvWalletBalance;
 
     FirebaseAuth firebaseAuth;
 
     String globalUserId;
     double globalWalletBalance;
+
+    RecyclerView rvTransactions;
+
+    TransactionsAdapter transactionsAdapter;
 
     DatabaseReference databaseReference;
 
@@ -94,23 +106,44 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        walletViewModel = new ViewModelProvider(this).get(WalletViewModel.class);
+        transactionsViewModel = new ViewModelProvider(this).get(TransactionsViewModel.class);
 
         walletToolBar = view.findViewById(R.id.wallet_tool_bar);
         tvWalletBalance = view.findViewById(R.id.tv_wallet_balance);
-        tvRealTime = view.findViewById(R.id.tv_real_time);
+
+        btnAddMoney = view.findViewById(R.id.btn_add_money);
+        btnWithdrawMoney = view.findViewById(R.id.btn_withdraw_money);
+
+        rvTransactions = view.findViewById(R.id.rv_transactions);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        //databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Users");
 
         navController = Navigation.findNavController(view);
 
-        MaterialToolbar walletToolBar = view.findViewById(R.id.wallet_tool_bar);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setReverseLayout(true);
+        rvTransactions.setLayoutManager(linearLayoutManager);
+        rvTransactions.setHasFixedSize(true);
 
-        btnAddMoney = view.findViewById(R.id.btn_add_money);
-        btnWithdrawMoney = view.findViewById(R.id.btn_withdraw_money);
+        transactionsAdapter = new TransactionsAdapter(getActivity(), new TransactionsAdapter.OnClick() {
+            @Override
+            public void onEvent(Transactions transactions, int pos) {
+
+            }
+        });
+
+        transactionsViewModel.getAllTransactions().observe(getViewLifecycleOwner(), new Observer<List<Transactions>>() {
+            @Override
+            public void onChanged(List<Transactions> transactions) {
+
+                transactionsAdapter.setTransactions(transactions);
+
+            }
+        });
+
+        rvTransactions.setAdapter(transactionsAdapter);
 
         daraja = Daraja.with("PAh0e0qaAR3XbwAAMHghF9HGtTwFnmsx", "JuGnn67udzbFwxzd", new DarajaListener<AccessToken>() {
             @Override
@@ -190,139 +223,33 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.btn_add_money) {
-            addMoney();
+
+            addMoneyMpesa();
+
         }
         if (id == R.id.btn_withdraw_money) {
-            //
+
+            withdrawMoneyMpesa();
+
         }
     }
 
-    private void addMoney() {
+    private void addMoneyOptions() {
 
-        final Dialog addMoneyDialog = new Dialog(getActivity());
-        addMoneyDialog.setContentView(R.layout.layout_add_money);
-        addMoneyDialog.show();
+        final Dialog addMoneyOptionsDialog = new Dialog(getActivity());
+        addMoneyOptionsDialog.setContentView(R.layout.layout_add_money);
+        addMoneyOptionsDialog.show();
 
-        Button btnMpesa = addMoneyDialog.findViewById(R.id.btn_mpesa);
-        Button btnCheque = addMoneyDialog.findViewById(R.id.btn_cheque);
+        Button btnMpesa = addMoneyOptionsDialog.findViewById(R.id.btn_mpesa);
+        Button btnCheque = addMoneyOptionsDialog.findViewById(R.id.btn_cheque);
 
         btnMpesa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                addMoneyDialog.dismiss();
+                addMoneyOptionsDialog.dismiss();
 
-                final Dialog stkPushDialog = new Dialog(getActivity());
-                stkPushDialog.setContentView(R.layout.layout_add_money_mpesa_dialog);
-                stkPushDialog.setCancelable(false);
-                stkPushDialog.show();
-
-                final TextInputLayout tilAddMoneyPhoneNumber = stkPushDialog.findViewById(R.id.til_add_money_phone_number);
-                final TextInputLayout tilAmount = stkPushDialog.findViewById(R.id.til_amount);
-
-                final TextInputEditText etAddMoneyPhoneNumber = stkPushDialog.findViewById(R.id.et_add_money_phone_number);
-                final EditText etAmount = stkPushDialog.findViewById(R.id.et_amount);
-
-                etAddMoneyPhoneNumber.addTextChangedListener(new CustomTextWatcher(tilAddMoneyPhoneNumber));
-                etAmount.addTextChangedListener(new CustomTextWatcher(tilAmount));
-
-                etAmount.addTextChangedListener(new ThousandTextWatcher(etAmount));
-
-                final MaterialButton btnDeposit = stkPushDialog.findViewById(R.id.btn_deposit);
-                final MaterialButton btnCancel = stkPushDialog.findViewById(R.id.btn_cancel);
-                final ProgressBar pbDeposit = stkPushDialog.findViewById(R.id.pb_deposit);
-
-                btnDeposit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-
-                        String stkPushPhoneNumber = etAddMoneyPhoneNumber.getText().toString().trim();
-                        final String amount = ThousandTextWatcher.trimCommaOfString(etAmount.getText().toString().trim());
-
-                        if (TextUtils.isEmpty(stkPushPhoneNumber)) {
-                            tilAddMoneyPhoneNumber.setError("Phone Number is required");
-                            etAddMoneyPhoneNumber.requestFocus();
-                        }
-
-                        if (TextUtils.isEmpty(amount)) {
-                            tilAmount.setError("Amount is required");
-
-                            if (!etAddMoneyPhoneNumber.hasFocus()) {
-                                etAmount.requestFocus();
-                            }
-
-                        } else {
-
-                            btnDeposit.setVisibility(View.GONE);
-                            btnCancel.setVisibility(View.GONE);
-                            pbDeposit.setVisibility(View.VISIBLE);
-
-                            //TODO :: REPLACE WITH YOUR OWN CREDENTIALS  :: THIS IS SANDBOX DEMO
-                            LNMExpress lnmExpress = new LNMExpress(
-                                    "174379",
-                                    "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919",//https://developer.safaricom.co.ke/test_credentials
-                                    TransactionType.CustomerPayBillOnline,
-                                    amount,
-                                    stkPushPhoneNumber,
-                                    "174379",
-                                    stkPushPhoneNumber,
-                                    "https://mpesa-requestbin.herokuapp.com/1d11kpx1",
-                                    "Prochama",
-                                    "Deposit"
-                            );
-
-                            daraja.requestMPESAExpress(lnmExpress,
-                                    new DarajaListener<LNMResult>() {
-                                        @Override
-                                        public void onResult(@NonNull LNMResult lnmResult) {
-
-                                            Log.wtf("STK Push ResponseCode ++++================: ", lnmResult.CustomerMessage);
-                                            Log.wtf("STK Push ResponseDescription ++++================: ", lnmResult.ResponseDescription);
-                                            Log.wtf("STK Push CustomerMessage ++++================: ", lnmResult.CustomerMessage);
-
-                                            double calculateWalletBalance = globalWalletBalance;
-
-                                            calculateWalletBalance = calculateWalletBalance + Double.parseDouble(amount);
-
-                                            updateWalletBalance(calculateWalletBalance);
-
-                                            stkPushDialog.dismiss();
-
-                                        }
-
-                                        @Override
-                                        public void onError(String error) {
-
-                                            Log.wtf("STK Push Request Error ++++================: ", error);
-
-                                            stkPushDialog.dismiss();
-                                            Config.showSnackBar(getActivity(), "We encountered an error");
-
-                                        }
-                                    }
-                            );
-
-                        }
-
-                    }
-                });
-
-                btnCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        stkPushDialog.dismiss();
-
-                    }
-                });
-
-                // Setting dialog background to transparent
-                stkPushDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-                // Setting size of the dialog
-                stkPushDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT);
+                addMoneyMpesa();
             }
         });
 
@@ -334,13 +261,246 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
         });
 
         // Setting dialog background to transparent
-        addMoneyDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        addMoneyOptionsDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         // Setting size of the dialog
-        addMoneyDialog.getWindow().setLayout(LinearLayout.LayoutParams.WRAP_CONTENT,
+        addMoneyOptionsDialog.getWindow().setLayout(LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
     }
+
+    private void addMoneyMpesa(){
+
+        final Dialog stkPushDialog = new Dialog(getActivity());
+        stkPushDialog.setContentView(R.layout.layout_add_money_mpesa_dialog);
+        stkPushDialog.setCancelable(false);
+        stkPushDialog.show();
+
+        final TextInputLayout tilAddMoneyPhoneNumber = stkPushDialog.findViewById(R.id.til_add_money_phone_number);
+        final TextInputLayout tilAmount = stkPushDialog.findViewById(R.id.til_amount);
+
+        final TextInputEditText etAddMoneyPhoneNumber = stkPushDialog.findViewById(R.id.et_add_money_phone_number);
+        final EditText etAmount = stkPushDialog.findViewById(R.id.et_amount);
+
+        etAddMoneyPhoneNumber.addTextChangedListener(new CustomTextWatcher(tilAddMoneyPhoneNumber));
+        etAmount.addTextChangedListener(new CustomTextWatcher(tilAmount));
+
+        etAmount.addTextChangedListener(new ThousandTextWatcher(etAmount));
+
+        final MaterialButton btnDeposit = stkPushDialog.findViewById(R.id.btn_deposit);
+        final MaterialButton btnCancel = stkPushDialog.findViewById(R.id.btn_cancel);
+        final ProgressBar pbDeposit = stkPushDialog.findViewById(R.id.pb_deposit);
+
+        btnDeposit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                String stkPushPhoneNumber = etAddMoneyPhoneNumber.getText().toString().trim();
+                final String amount = ThousandTextWatcher.trimCommaOfString(etAmount.getText().toString().trim());
+
+                if (TextUtils.isEmpty(stkPushPhoneNumber)) {
+                    tilAddMoneyPhoneNumber.setError("Phone Number is required");
+                    etAddMoneyPhoneNumber.requestFocus();
+                }
+
+                if (TextUtils.isEmpty(amount)) {
+                    tilAmount.setError("Amount is required");
+
+                    if (!etAddMoneyPhoneNumber.hasFocus()) {
+                        etAmount.requestFocus();
+                    }
+
+                } else {
+
+                    btnDeposit.setVisibility(View.GONE);
+                    btnCancel.setVisibility(View.GONE);
+                    pbDeposit.setVisibility(View.VISIBLE);
+
+                    //TODO :: REPLACE WITH YOUR OWN CREDENTIALS  :: THIS IS SANDBOX DEMO
+                    LNMExpress lnmExpress = new LNMExpress(
+                            "174379",
+                            "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919",//https://developer.safaricom.co.ke/test_credentials
+                            TransactionType.CustomerPayBillOnline,
+                            amount,
+                            stkPushPhoneNumber,
+                            "174379",
+                            stkPushPhoneNumber,
+                            "https://mpesa-requestbin.herokuapp.com/1d11kpx1",
+                            "Prochama",
+                            "Deposit"
+                    );
+
+                    daraja.requestMPESAExpress(lnmExpress,
+                            new DarajaListener<LNMResult>() {
+                                @Override
+                                public void onResult(@NonNull LNMResult lnmResult) {
+
+                                    Log.wtf("STK Push ResponseCode ++++================: ", lnmResult.CustomerMessage);
+                                    Log.wtf("STK Push ResponseDescription ++++================: ", lnmResult.ResponseDescription);
+                                    Log.wtf("STK Push CustomerMessage ++++================: ", lnmResult.CustomerMessage);
+
+                                    double calculateWalletBalance = globalWalletBalance;
+
+                                    double doubleAmount = Double.parseDouble(amount);
+
+                                    calculateWalletBalance = calculateWalletBalance + doubleAmount;
+
+                                    Transactions transactions = new Transactions();
+
+                                    transactions.setTransactionId(0);
+                                    transactions.setAmount(doubleAmount);
+                                    transactions.setTransactionType("Mpesa Deposit");
+
+                                    transactionsViewModel.insert(transactions);
+
+                                    updateWalletBalance(calculateWalletBalance);
+
+                                    stkPushDialog.dismiss();
+
+                                }
+
+                                @Override
+                                public void onError(String error) {
+
+                                    Log.wtf("STK Push Request Error ++++================: ", error);
+
+                                    stkPushDialog.dismiss();
+                                    Config.showSnackBar(getActivity(), "We encountered an error");
+
+                                }
+                            }
+                    );
+
+                }
+
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                stkPushDialog.dismiss();
+
+            }
+        });
+
+        // Setting dialog background to transparent
+        stkPushDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        // Setting size of the dialog
+        stkPushDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+    }
+
+    private void withdrawMoneyMpesa() {
+
+
+        final Dialog withdrawMpesaDialog = new Dialog(getActivity());
+        withdrawMpesaDialog.setContentView(R.layout.layout_withdraw_money_mpesa_dialog);
+        withdrawMpesaDialog.setCancelable(false);
+        withdrawMpesaDialog.show();
+
+        final TextInputLayout tilWithdrawMoneyPhoneNumber = withdrawMpesaDialog.findViewById(R.id.til_withdraw_money_phone_number);
+        final TextInputLayout tilAmount = withdrawMpesaDialog.findViewById(R.id.til_amount);
+
+        final TextInputEditText etWithdrawMoneyPhoneNumber = withdrawMpesaDialog.findViewById(R.id.et_withdraw_money_phone_number);
+        final EditText etAmount = withdrawMpesaDialog.findViewById(R.id.et_amount);
+
+        etWithdrawMoneyPhoneNumber.addTextChangedListener(new CustomTextWatcher(tilWithdrawMoneyPhoneNumber));
+        etAmount.addTextChangedListener(new CustomTextWatcher(tilAmount));
+
+        etAmount.addTextChangedListener(new ThousandTextWatcher(etAmount));
+
+        final MaterialButton btnWithdraw = withdrawMpesaDialog.findViewById(R.id.btn_withdraw);
+        final MaterialButton btnCancel = withdrawMpesaDialog.findViewById(R.id.btn_cancel);
+        final ProgressBar pbWithdraw = withdrawMpesaDialog.findViewById(R.id.pb_withdraw);
+
+        btnWithdraw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                String withdrawPhoneNumber = etWithdrawMoneyPhoneNumber.getText().toString().trim();
+                final String amount = ThousandTextWatcher.trimCommaOfString(etAmount.getText().toString().trim());
+
+                if (TextUtils.isEmpty(withdrawPhoneNumber)) {
+                    tilWithdrawMoneyPhoneNumber.setError("Phone Number is required");
+                    etWithdrawMoneyPhoneNumber.requestFocus();
+                }
+
+                if (TextUtils.isEmpty(amount)) {
+                    tilAmount.setError("Amount is required");
+
+                    if (!etWithdrawMoneyPhoneNumber.hasFocus()) {
+                        etAmount.requestFocus();
+                    }
+
+                } else {
+
+                    btnWithdraw.setVisibility(View.GONE);
+                    btnCancel.setVisibility(View.GONE);
+                    pbWithdraw.setVisibility(View.VISIBLE);
+
+                    double calculateWalletBalance = globalWalletBalance;
+
+                    double doubleAmount = Double.parseDouble(amount);
+
+                    if (calculateWalletBalance == 0){
+
+                        Config.showSnackBar(getActivity(), "Insufficient funds in your account");
+
+                    }
+                    if (doubleAmount > calculateWalletBalance){
+
+
+
+                        Config.showSnackBar(getActivity(), "Insufficient funds in your account");
+
+
+                    } else{
+
+                        calculateWalletBalance = calculateWalletBalance - doubleAmount;
+
+                        Transactions transactions = new Transactions();
+
+                        transactions.setTransactionId(0);
+                        transactions.setAmount(doubleAmount);
+                        transactions.setTransactionType("Mpesa Withdrawal");
+
+                        transactionsViewModel.insert(transactions);
+
+                        updateWalletBalance(calculateWalletBalance);
+
+                    }
+
+                    withdrawMpesaDialog.dismiss();
+
+                }
+
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                withdrawMpesaDialog.dismiss();
+
+            }
+        });
+
+        // Setting dialog background to transparent
+        withdrawMpesaDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        // Setting size of the dialog
+        withdrawMpesaDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+
+    }
+
 
     private void readData() {
 
