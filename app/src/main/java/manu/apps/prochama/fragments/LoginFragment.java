@@ -48,7 +48,6 @@ import manu.apps.prochama.viewmodels.LoginViewModel;
 
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
-    private LoginViewModel loginViewModel;
     private ProgressBar pbLogin;
     private TextInputLayout tilEmail, tilPassword;
     private EditText etEmail, etPassword;
@@ -77,7 +76,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
     }
 
     @Override
