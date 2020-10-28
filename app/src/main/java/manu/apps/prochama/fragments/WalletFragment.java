@@ -38,8 +38,10 @@ import com.androidstudy.daraja.model.AccessToken;
 import com.androidstudy.daraja.model.LNMExpress;
 import com.androidstudy.daraja.model.LNMResult;
 import com.androidstudy.daraja.util.TransactionType;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -87,6 +89,9 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
     TransactionsAdapter transactionsAdapter;
 
     DatabaseReference databaseReference;
+
+
+    private DatabaseReference transactionsDatabaseReference;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -342,21 +347,47 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
 
                                     double calculateWalletBalance = globalWalletBalance;
 
-                                    double doubleAmount = Double.parseDouble(amount);
+                                    final double doubleAmount = Double.parseDouble(amount);
 
                                     calculateWalletBalance = calculateWalletBalance + doubleAmount;
 
-                                    Transactions transactions = new Transactions();
+                                    final double parseCalculatedWalletBalance = calculateWalletBalance;
 
-                                    transactions.setTransactionId(0);
-                                    transactions.setAmount(doubleAmount);
-                                    transactions.setTransactionType("Mpesa Deposit");
 
-                                    transactionsViewModel.insert(transactions);
+                                    // Setting the Transactions to be saved also in Firebase
+                                    FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                                    assert firebaseUser != null;
+                                    final String userId = firebaseUser.getUid();
 
-                                    updateWalletBalance(calculateWalletBalance);
+                                    transactionsDatabaseReference = FirebaseDatabase.getInstance().getReference("Transactions").child(userId);
 
-                                    stkPushDialog.dismiss();
+                                    HashMap<String, Object> hashMapTransactions = new HashMap<>();
+                                    hashMapTransactions.put("amount", doubleAmount);
+                                    hashMapTransactions.put("transactionType", "Mpesa Deposit");
+
+                                    transactionsDatabaseReference.setValue(hashMapTransactions).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()){
+
+                                                Transactions transactions = new Transactions();
+
+                                                transactions.setTransactionId(0);
+                                                transactions.setAmount(doubleAmount);
+                                                transactions.setTransactionType("Mpesa Deposit");
+
+                                                transactionsViewModel.insert(transactions);
+
+                                                updateWalletBalance(parseCalculatedWalletBalance);
+
+                                                stkPushDialog.dismiss();
+
+                                            }else {
+                                                stkPushDialog.dismiss();
+                                                Config.showSnackBar(getContext(), "We encountered an error with the transaction");
+                                            }
+                                        }
+                                    });
 
                                 }
 
