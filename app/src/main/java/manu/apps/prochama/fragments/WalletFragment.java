@@ -359,7 +359,7 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
                                     assert firebaseUser != null;
                                     final String userId = firebaseUser.getUid();
 
-                                    transactionsDatabaseReference = FirebaseDatabase.getInstance().getReference("Transactions").child(userId);
+                                    transactionsDatabaseReference = FirebaseDatabase.getInstance().getReference("Deposits").child(userId);
 
                                     HashMap<String, Object> hashMapTransactions = new HashMap<>();
                                     hashMapTransactions.put("amount", doubleAmount);
