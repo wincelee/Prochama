@@ -476,7 +476,7 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
 
                     double calculateWalletBalance = globalWalletBalance;
 
-                    double doubleAmount = Double.parseDouble(amount);
+                    final double doubleAmount = Double.parseDouble(amount);
 
                     if (calculateWalletBalance == 0){
 
@@ -494,15 +494,44 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
 
                         calculateWalletBalance = calculateWalletBalance - doubleAmount;
 
-                        Transactions transactions = new Transactions();
+                        final double parseCalculatedWalletBalance = calculateWalletBalance;
 
-                        transactions.setTransactionId(0);
-                        transactions.setAmount(doubleAmount);
-                        transactions.setTransactionType("Mpesa Withdrawal");
 
-                        transactionsViewModel.insert(transactions);
+                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                        assert firebaseUser != null;
+                        final String userId = firebaseUser.getUid();
 
-                        updateWalletBalance(calculateWalletBalance);
+                        transactionsDatabaseReference = FirebaseDatabase.getInstance().getReference("Withdrawals").child(userId);
+
+                        HashMap<String, Object> hashMapTransactions = new HashMap<>();
+                        hashMapTransactions.put("amount", doubleAmount);
+                        hashMapTransactions.put("transactionType", "Mpesa Withdrawal");
+
+                        transactionsDatabaseReference.setValue(hashMapTransactions).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()){
+
+                                    Transactions transactions = new Transactions();
+
+                                    transactions.setTransactionId(0);
+                                    transactions.setAmount(doubleAmount);
+                                    transactions.setTransactionType("Mpesa Withdrawal");
+
+                                    transactionsViewModel.insert(transactions);
+
+                                    updateWalletBalance(parseCalculatedWalletBalance);
+
+                                    withdrawMpesaDialog.dismiss();
+
+                                }else {
+
+                                    withdrawMpesaDialog.dismiss();
+                                    Config.showSnackBar(getContext(), "We encountered an error with the transaction");
+
+                                }
+                            }
+                        });
 
                     }
 
