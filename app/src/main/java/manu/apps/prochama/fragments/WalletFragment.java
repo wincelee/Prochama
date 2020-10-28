@@ -162,7 +162,7 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onError(String error) {
 
-                Log.wtf("AccessToken++++++++++++++===================  :  ", error);
+                Log.wtf("AccessToken+++++++++++++++++===================  :  ", error);
 
             }
         });
